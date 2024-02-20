@@ -18,6 +18,25 @@ fun <T> reverse(lista: List<T>): List<T> {
     return resultado
 }
 
+fun validarEstructura(cadena: String): Boolean {
+    val pila = Pila<Char>()
+    val estructura = mapOf(')' to '(', ']' to '[', '}' to '{')
+
+    val iterator = cadena.iterator()
+    while (iterator.hasNext()) {
+        val caracter = iterator.next()
+        if (estructura.contains(caracter)) {
+            if (pila.tope() == estructura[caracter]) {
+                pila.pop()
+            }
+        } else {
+            pila.push(caracter)
+        }
+    }
+
+    return pila.vacia()
+}
+
 fun main(args: Array<String>) {
     val listaNumeros = listOf("Uno", "Dos", "Tres", "Cuatro")
     val listaNumReversa = reverse(listaNumeros)
@@ -27,4 +46,24 @@ fun main(args: Array<String>) {
         println("Error: $listaNumReversa")
     }
     println(listaNumReversa)
+
+    println("----------------------")
+
+    var validacion = "(([()]{}[(())]))"
+    if (validarEstructura(validacion)) {
+        println("Correcto")
+    } else {
+        println("Error: $validacion")
+    }
+    println(validacion)
+
+    println("----------------------")
+
+    validacion = "(([()]{[(())))"
+    if (validarEstructura(validacion)) {
+        println("Correcto")
+    } else {
+        println("Error: $validacion")
+    }
+    println(validacion)
 }
